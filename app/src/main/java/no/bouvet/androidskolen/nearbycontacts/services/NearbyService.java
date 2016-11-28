@@ -1,10 +1,7 @@
 package no.bouvet.androidskolen.nearbycontacts.services;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +11,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -36,9 +32,6 @@ import java.util.List;
 
 import no.bouvet.androidskolen.nearbycontacts.ContactDatabase;
 import no.bouvet.androidskolen.nearbycontacts.ContactDetectedListener;
-import no.bouvet.androidskolen.nearbycontacts.NearbyActivity;
-import no.bouvet.androidskolen.nearbycontacts.OwnContactActivity;
-import no.bouvet.androidskolen.nearbycontacts.R;
 import no.bouvet.androidskolen.nearbycontacts.models.Contact;
 import no.bouvet.androidskolen.nearbycontacts.models.ContactLogListViewModel;
 import no.bouvet.androidskolen.nearbycontacts.models.NearbyContactsListViewModel;
@@ -326,80 +319,25 @@ public class NearbyService extends Service implements GoogleApiClient.Connection
 
     public class NearbyNotifications {
 
-        public final static String TURN_OFF_NEARBY = "no.bouvet.androidskolen.nearbycontacts.TURNOFF";
-        public final static String TURN_ON_NEARBY = "no.bouvet.androidskolen.nearbycontacts.TURNON";
-
-        private final static int NOTIFICATION_ID = 123;
-
-        private NotificationManager notificationManager;
+        final static String TURN_OFF_NEARBY = "no.bouvet.androidskolen.nearbycontacts.TURNOFF";
+        final static String TURN_ON_NEARBY = "no.bouvet.androidskolen.nearbycontacts.TURNON";
 
         /**
          * Creates a new Notification and either adds a new or updates an old in the Notifications
          * Drawer
          */
-        public void updateNotification() {
-            if (notificationManager == null) {
-                notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            }
-            Notification notification = createNotification();
-            notificationManager.notify(NOTIFICATION_ID, notification);
+        void updateNotification() {
+            // TODO Oppgave 1
         }
 
         /**
          * Removes the Notification from the Notfications Drawer
          */
-        public void removeNotification() {
-            notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.cancel(NOTIFICATION_ID);
+        void removeNotification() {
+           // TODO Oppgave 1
         }
 
-        private Notification createNotification() {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                    .setContentTitle(getApplicationContext().getResources().getString(R.string.app_name))
-                    .setContentText(getContentText())
-                    .setSmallIcon(R.mipmap.ic_launcher);
 
-            // Set intent that is fired if main content is pressed
-            Intent intent = new Intent(getApplicationContext(), NearbyActivity.class);
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-            stackBuilder.addParentStack(NearbyActivity.class);
-            stackBuilder.addNextIntent(intent);
-            PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(pendingIntent);
-
-            // Add an action for turning on and off use of nearby messages
-            Intent broadcastIntent = new Intent();
-            broadcastIntent.setAction(getBroadCastActionName());
-            PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(), 12, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.addAction(getAction(broadcast));
-
-            // Add an action that starts an Activity.
-            intent = new Intent(getApplicationContext(), OwnContactActivity.class);
-            stackBuilder = TaskStackBuilder.create(getApplicationContext());
-            stackBuilder.addParentStack(NearbyActivity.class);
-            stackBuilder.addNextIntent(intent);
-            pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.addAction(R.drawable.notification_settings, "Settings", pendingIntent);
-
-            builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-
-            return builder.build();
-        }
-
-        private String getContentText() {
-            if (connected) return getApplicationContext().getResources().getString(R.string.notification_started_text);
-            else return getApplicationContext().getResources().getString(R.string.notification_stopped_text);
-        }
-
-        private String getBroadCastActionName() {
-            if (connected) return TURN_OFF_NEARBY;
-            else return TURN_ON_NEARBY;
-        }
-
-        private NotificationCompat.Action getAction(PendingIntent pendingIntent) {
-            if (connected) return new NotificationCompat.Action(R.drawable.notification_checked, "Turn off", pendingIntent);
-            else return new NotificationCompat.Action(R.drawable.notification_unchecked, "Turn on", pendingIntent);
-        }
 
     }
 
