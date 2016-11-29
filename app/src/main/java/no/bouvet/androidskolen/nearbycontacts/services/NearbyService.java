@@ -303,18 +303,18 @@ public class NearbyService extends Service implements GoogleApiClient.Connection
 
         nearbyNotifications = new NearbyNotifications();
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(NearbyNotifications.TURN_ON_NEARBY);
-        filter.addAction(NearbyNotifications.TURN_OFF_NEARBY);
-        nearbyNotificationReceiver = new NearbyNotificationReceiver();
-        registerReceiver(nearbyNotificationReceiver, filter);
+        // TODO Oppgave 1
+        // Opprett et intentfilter og registrer en ny instans av NearbyNotificationReceiver
+        // Hint registerReceiver()
     }
 
     @Override
     public void onDestroy() {
         // The service is no longer used and is being destroyed
         Log.i(TAG, "[onDestroy]");
-        unregisterReceiver(nearbyNotificationReceiver);
+
+        // TODO Oppgvave 1
+        // Avregistrer broadcastreceiver som allerede er registrert.
     }
 
     public class NearbyNotifications {
