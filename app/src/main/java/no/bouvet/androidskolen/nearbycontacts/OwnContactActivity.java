@@ -53,7 +53,7 @@ public class OwnContactActivity extends AppCompatActivity implements View.OnClic
         Button removePictureButton = (Button) findViewById(R.id.remove_picture_button);
         removePictureButton.setOnClickListener(this);
 
-        Button publishContactButton = (Button) findViewById(R.id.publish_button);
+        Button publishContactButton = (Button) findViewById(R.id.save_button);
         publishContactButton.setOnClickListener(this);
 
         publishSwitch = (Switch) findViewById(R.id.publish_toggle);
@@ -116,8 +116,8 @@ public class OwnContactActivity extends AppCompatActivity implements View.OnClic
             case R.id.remove_picture_button:
                 removePicture();
                 break;
-            case R.id.publish_button:
-                handlePublish();
+            case R.id.save_button:
+                handleSave();
                 break;
         }
     }
@@ -126,11 +126,11 @@ public class OwnContactActivity extends AppCompatActivity implements View.OnClic
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.publish_toggle:
-                if (OwnContactViewModel.INSTANCE.getContact().isPublish() == isChecked) {
+                if (OwnContactViewModel.INSTANCE.getContact() != null && OwnContactViewModel.INSTANCE.getContact().isPublish() == isChecked) {
                     break;
                 }
                 if (isChecked) {
-                    handlePublish();
+                    handleSave();
                 } else {
                     saveContact();
                     mService.unPublishContact();
@@ -139,7 +139,7 @@ public class OwnContactActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private void handlePublish() {
+    private void handleSave() {
         if (!isUserPictureSet()) {
             startNoPictureDialogFragment();
         } else {

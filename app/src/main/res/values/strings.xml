@@ -3,7 +3,7 @@
     <string name="nearby_contacts_activity_name">Nearby Contacts</string>
     <string name="user_name_hint">name</string>
     <string name="save_contact_button">Save</string>
-    <string name="publish_own_user_button">Publish</string>
+    <string name="save_own_user_button">Save</string>
     <string name="user_email_hint">email</string>
     <string name="user_telephone_hint">telephone</string>
     <string name="action_goto_own_activity">Go home</string>
